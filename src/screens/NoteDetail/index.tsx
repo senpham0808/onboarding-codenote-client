@@ -22,6 +22,9 @@ class NoteDetail extends Component {
   }
 
   async componentDidMount() {
+    if (this.props.isNew) {
+      return;
+    }
     try {
       let attachmentURL;
       const note = await this.getNote();
@@ -46,6 +49,11 @@ class NoteDetail extends Component {
   }
 
   saveNote(note) {
+    if (this.props.isNew) {
+      return API.post("notes", '/notes', {
+        body: note
+      });
+    }
     return API.put("notes", `/notes/${this.props.match.params.id}`, {
       body: note
     });
@@ -125,9 +133,11 @@ class NoteDetail extends Component {
   }
 
   render() {
+    const { isNew } = this.props;
+    const { attachment } = this.state.note || {};
     return (
       <div className="NoteDetail">
-        {this.state.note &&
+        {(this.state.note || isNew) &&
           <form onSubmit={this.handleSubmit}>
             <FormGroup controlId="content">
               <FormControl
@@ -136,7 +146,7 @@ class NoteDetail extends Component {
                 componentClass="textarea"
               />
             </FormGroup>
-            {this.state.note.attachment &&
+            {attachment &&
               <FormGroup>
                 <ControlLabel>Attachment</ControlLabel>
                 <FormControl.Static>
@@ -145,12 +155,12 @@ class NoteDetail extends Component {
                     rel="noopener noreferrer"
                     href={this.state.attachmentURL}
                   >
-                    {this.formatFilename(this.state.note.attachment)}
+                    {this.formatFilename(attachment)}
                   </a>
                 </FormControl.Static>
               </FormGroup>}
             <FormGroup controlId="file">
-              {!this.state.note.attachment &&
+              {!attachment &&
                 <ControlLabel>Attachment</ControlLabel>}
               <FormControl onChange={this.handleFileChange} type="file" />
             </FormGroup>
@@ -161,10 +171,10 @@ class NoteDetail extends Component {
               disabled={!this.validateForm()}
               type="submit"
               isLoading={this.state.isLoading}
-              text="Save"
+              text={isNew ? "Create" : "Save"}
               loadingText="Saving…"
             />
-            <LoaderButton
+            {!isNew && <LoaderButton
               block
               bsStyle="danger"
               bsSize="large"
@@ -172,7 +182,7 @@ class NoteDetail extends Component {
               onClick={this.handleDelete}
               text="Delete"
               loadingText="Deleting…"
-            />
+            />}
           </form>}
       </div>
     );
