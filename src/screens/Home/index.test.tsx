@@ -34,5 +34,5 @@ describe('Render GUI correctly', () => {
     expect(getNote).toBeCalled();
   });
   
-})
+});
 

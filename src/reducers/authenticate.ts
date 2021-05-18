@@ -6,7 +6,9 @@ interface IStates {
 
 interface IActions {
   type: string,
-  payload: Object,
+  payload: {
+    isAuthenticated: boolean
+  },
 }
 
 const initialState = {
@@ -18,7 +20,7 @@ export default function authenticate(state: IStates = initialState, action: IAct
     case actionTypes.LOGIN_SUCCESS:
       return {
         ...state,
-        isAuthenticated: action.payload,
+        isAuthenticated: action.payload.isAuthenticated,
       };
     default:
       return state;
