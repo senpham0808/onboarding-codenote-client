@@ -8,8 +8,13 @@ import { userHasAuthenticated } from '../../actions/authenticate';
 import "./index.css";
 import {PropsAuthen, PropsAuthenFunc, StateLoading} from '../../type';
 
+interface INote {
+  noteId: string,
+  content: string,
+  createdAt: string,
+}
 interface State extends StateLoading {
-  notes: object[]
+  notes: INote[]
 }
 class Home extends Component<PropsAuthen, State> {
   constructor(props) {
@@ -40,9 +45,9 @@ class Home extends Component<PropsAuthen, State> {
     return API.get("notes", "/notes", null);
   }
 
-  renderNotesList(notes) {
+  renderNotesList(notes: INote[]) {
     return [{}].concat(notes).map(
-      (note: any, i) =>
+      (note: INote, i) =>
         i !== 0
           ? <LinkContainer
               key={note.noteId}
