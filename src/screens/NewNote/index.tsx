@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { API } from 'aws-amplify';
+import { History } from 'history';
 import LoaderButton from "../../components/LoaderButton";
 import { s3Upload } from '../../libs/awsLib'
 import config from "../../config";
 import "./index.css";
+import {PropsHistory, StateContent, StateLoading, StateAnyString} from '../../type';
 
-export default class NewNote extends Component {
+type State = StateAnyString & StateContent & StateLoading;
+
+export default class NewNote extends Component<PropsHistory, State> {
+  file: any;
+
   constructor(props) {
     super(props);
 

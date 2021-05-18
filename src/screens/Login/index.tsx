@@ -6,15 +6,18 @@ import { Auth } from 'aws-amplify';
 import LoaderButton from '../../components/LoaderButton';
 import { userHasAuthenticated } from '../../actions/authenticate';
 import "./index.css";
+import {PropsAuthenFunc, StateAnyString, StateLoading, StateUser} from '../../type';
 
-class Login extends Component {
+type State = StateUser & StateLoading & StateAnyString;
+
+class Login extends Component<PropsAuthenFunc, State> {
   constructor(props) {
     super(props);
-
     this.state = {
       email: "",
       password: "",
-      isLoading: false
+      isLoading: false,
+      
     };
   }
 

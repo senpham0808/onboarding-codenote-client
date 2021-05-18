@@ -6,8 +6,17 @@ import { PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { userHasAuthenticated } from '../../actions/authenticate';
 import "./index.css";
+import {PropsAuthen, PropsAuthenFunc, StateLoading} from '../../type';
 
-class Home extends Component {
+interface INote {
+  noteId: string,
+  content: string,
+  createdAt: string,
+}
+interface State extends StateLoading {
+  notes: INote[]
+}
+class Home extends Component<PropsAuthen, State> {
   constructor(props) {
     super(props);
 
@@ -33,12 +42,12 @@ class Home extends Component {
   }
 
   notes() {
-    return API.get("notes", "/notes");
+    return API.get("notes", "/notes", null);
   }
 
-  renderNotesList(notes) {
+  renderNotesList(notes: INote[]) {
     return [{}].concat(notes).map(
-      (note, i) =>
+      (note: INote, i) =>
         i !== 0
           ? <LinkContainer
               key={note.noteId}

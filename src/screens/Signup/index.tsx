@@ -8,8 +8,15 @@ import {
 import { Auth } from 'aws-amplify';
 import LoaderButton from '../../components/LoaderButton';
 import "./index.css";
+import {PropsHistory, PropsAuthenFunc, StateLoading, StateUser, StateAnyString} from '../../type';
 
-class Signup extends Component {
+type Props = PropsHistory & PropsAuthenFunc;
+interface State extends StateLoading, StateUser, StateAnyString {
+  confirmPassword: string;
+  confirmationCode: string;
+  newUser: any;
+}
+class Signup extends Component<Props, State> {
   constructor(props) {
     super(props);
 
