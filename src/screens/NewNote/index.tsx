@@ -6,21 +6,12 @@ import LoaderButton from "../../components/LoaderButton";
 import { s3Upload } from '../../libs/awsLib'
 import config from "../../config";
 import "./index.css";
+import {PropsHistory, StateContent, StateLoading, StateAnyString} from '../../type';
 
-interface Props {
-  history: History;
-}
+type State = StateAnyString & StateContent & StateLoading;
 
-interface State {
-  content: string;
-  isLoading: null | boolean;
-  [keys: number]: string
-}
-
-export default class NewNote extends Component<Props, State> {
-  file: null | {
-    size: number
-  };
+export default class NewNote extends Component<PropsHistory, State> {
+  file: any;
 
   constructor(props) {
     super(props);

@@ -6,21 +6,18 @@ import './index.css';
 import LoaderButton from '../../components/LoaderButton';
 import config from '../../config';
 import { s3Upload } from '../../libs/awsLib';
+import {PropsHistory, StateContent, StateLoading, StateAnyString} from '../../type';
 
-interface Props {
+interface Props extends PropsHistory {
   match: any;
-  history: History;
 }
-interface State {
-  content: string;
-  isLoading: boolean;
+interface State extends StateContent, StateAnyString, StateLoading {
   isDeleting: null | boolean;
   note: null | {
     attachment: any;
     content: string;
   };
   attachmentURL: null | string;
-  [keys: number]: string;
 }
 class NoteDetail extends Component<Props, State> {
   file: any;
