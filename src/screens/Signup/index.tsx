@@ -24,10 +24,11 @@ class Signup extends Component {
   }
 
   validateForm() {
+    const { email, password, confirmPassword } = this.state;
     return (
-      this.state.email.length > 0 &&
-      this.state.password.length > 0 &&
-      this.state.password === this.state.confirmPassword
+      email.length > 0 &&
+      password.length > 0 &&
+      password === confirmPassword
     );
   }
 
@@ -62,16 +63,18 @@ class Signup extends Component {
   }
 
   handleConfirmationSubmit = async event => {
+    const { email, confirmationCode, password } = this.state;
+    const { history, userHasAuthenticated} = this.props;
     event.preventDefault();
 
     this.setState({ isLoading: true });
 
     try {
-      await Auth.confirmSignUp(this.state.email, this.state.confirmationCode);
-      await Auth.signIn(this.state.email, this.state.password);
+      await Auth.confirmSignUp(email, confirmationCode);
+      await Auth.signIn(email, password);
 
-      this.props.userHasAuthenticated(true);
-      this.props.history.push("/");
+      userHasAuthenticated(true);
+      history.push("/");
     } catch(e) {
       alert(e.message);
       this.setState({ isLoading: false });
@@ -79,6 +82,7 @@ class Signup extends Component {
   }
 
   renderConfirmationForm() {
+    const { confirmationCode, isLoading } = this.state;
     return (
       <form onSubmit={this.handleConfirmationSubmit}>
         <FormGroup controlId="confirmationCode" bsSize="large">
@@ -86,7 +90,7 @@ class Signup extends Component {
           <FormControl
             autoFocus
             type="tel"
-            value={this.state.confirmationCode}
+            value={confirmationCode}
             onChange={this.handleChange}
           />
           <HelpBlock>Please check your email for the code.</HelpBlock>
@@ -96,7 +100,7 @@ class Signup extends Component {
           bsSize="large"
           disabled={!this.validateConfirmationForm()}
           type="submit"
-          isLoading={this.state.isLoading}
+          isLoading={isLoading}
           text="Verify"
           loadingText="Verifying…"
         />
@@ -105,6 +109,7 @@ class Signup extends Component {
   }
 
   renderForm() {
+    const { email, password, confirmPassword, isLoading } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
         <FormGroup controlId="email" bsSize="large">
@@ -112,14 +117,14 @@ class Signup extends Component {
           <FormControl
             autoFocus
             type="email"
-            value={this.state.email}
+            value={email}
             onChange={this.handleChange}
           />
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
           <ControlLabel>Password</ControlLabel>
           <FormControl
-            value={this.state.password}
+            value={password}
             onChange={this.handleChange}
             type="password"
           />
@@ -127,7 +132,7 @@ class Signup extends Component {
         <FormGroup controlId="confirmPassword" bsSize="large">
           <ControlLabel>Confirm Password</ControlLabel>
           <FormControl
-            value={this.state.confirmPassword}
+            value={confirmPassword}
             onChange={this.handleChange}
             type="password"
           />
@@ -137,7 +142,7 @@ class Signup extends Component {
           bsSize="large"
           disabled={!this.validateForm()}
           type="submit"
-          isLoading={this.state.isLoading}
+          isLoading={isLoading}
           text="Signup"
           loadingText="Signing up…"
         />

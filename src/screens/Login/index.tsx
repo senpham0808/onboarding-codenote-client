@@ -20,10 +20,8 @@ class Login extends Component {
   }
 
   validateForm() {
-    return (
-      this.state.email.length > 0 &&
-      this.state.password.length > 0
-    );
+    const { email, password } = this.state;
+    return email && password;
   }
 
   handleChange = event => {
@@ -53,6 +51,7 @@ class Login extends Component {
   }
 
   render() {
+    const { email, password, isLoading } = this.state;
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
@@ -61,14 +60,14 @@ class Login extends Component {
             <FormControl
               autoFocus
               type="email"
-              value={this.state.email}
+              value={email}
               onChange={this.handleChange}
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
             <ControlLabel>Password</ControlLabel>
             <FormControl
-              value={this.state.password}
+              value={password}
               onChange={this.handleChange}
               type="password"
             />
@@ -78,7 +77,7 @@ class Login extends Component {
             bsSize="large"
             disabled={!this.validateForm()}
             type="submit"
-            isLoading={this.state.isLoading}
+            isLoading={isLoading}
             text="Login"
             loadingText="Logging in…"
           />

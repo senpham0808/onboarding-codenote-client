@@ -134,15 +134,16 @@ class NoteDetail extends Component {
 
   render() {
     const { isNew } = this.props;
-    const { attachment } = this.state.note || {};
+    const { note, content, attachmentURL, isLoading, isDeleting } = this.state;
+    const { attachment } = note || {};
     return (
       <div className="NoteDetail">
-        {(this.state.note || isNew) &&
+        {(note || isNew) &&
           <form onSubmit={this.handleSubmit}>
             <FormGroup controlId="content">
               <FormControl
                 onChange={this.handleChange}
-                value={this.state.content}
+                value={content}
                 componentClass="textarea"
               />
             </FormGroup>
@@ -153,7 +154,7 @@ class NoteDetail extends Component {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href={this.state.attachmentURL}
+                    href={attachmentURL}
                   >
                     {this.formatFilename(attachment)}
                   </a>
@@ -170,7 +171,7 @@ class NoteDetail extends Component {
               bsSize="large"
               disabled={!this.validateForm()}
               type="submit"
-              isLoading={this.state.isLoading}
+              isLoading={isLoading}
               text={isNew ? "Create" : "Save"}
               loadingText="Saving…"
             />
@@ -178,7 +179,7 @@ class NoteDetail extends Component {
               block
               bsStyle="danger"
               bsSize="large"
-              isLoading={this.state.isDeleting}
+              isLoading={isDeleting}
               onClick={this.handleDelete}
               text="Delete"
               loadingText="Deleting…"
