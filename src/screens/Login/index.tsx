@@ -7,14 +7,23 @@ import LoaderButton from '../../components/LoaderButton';
 import { userHasAuthenticated } from '../../actions/authenticate';
 import "./index.css";
 
-class Login extends Component {
+interface Props {
+  userHasAuthenticated: (boolean) => void
+}
+interface State {
+  email: string;
+  password: string;
+  isLoading: boolean;
+  [keys: number]: string;
+}
+class Login extends Component<Props, State> {
   constructor(props) {
     super(props);
-
     this.state = {
       email: "",
       password: "",
-      isLoading: false
+      isLoading: false,
+      
     };
   }
 

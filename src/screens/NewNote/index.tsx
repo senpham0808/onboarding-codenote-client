@@ -1,12 +1,27 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { API } from 'aws-amplify';
+import { History } from 'history';
 import LoaderButton from "../../components/LoaderButton";
 import { s3Upload } from '../../libs/awsLib'
 import config from "../../config";
 import "./index.css";
 
-export default class NewNote extends Component {
+interface Props {
+  history: History;
+}
+
+interface State {
+  content: string;
+  isLoading: null | boolean;
+  [keys: number]: string
+}
+
+export default class NewNote extends Component<Props, State> {
+  file: null | {
+    size: number
+  };
+
   constructor(props) {
     super(props);
 
