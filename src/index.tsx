@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from "react-router-dom";
 import Amplify from 'aws-amplify';
 import './index.css';
 import config from './config';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import store from './redux/store';
 
 Amplify.configure({
   Auth: {
@@ -32,9 +34,11 @@ Amplify.configure({
 });
 
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>,
   document.getElementById('root')
 );
 
